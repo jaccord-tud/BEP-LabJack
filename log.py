@@ -1,0 +1,50 @@
+import time
+import u6
+import csv
+
+# Connect to LabJack U6
+d = u6.U6()
+print("Connected to U6\n")
+
+# Define voltage and force range
+V_min = 0.0048
+V_max = 10
+F_max = 10
+
+# Convert voltage (V) to force (N)
+def volt_to_newton(V):
+    return (V - V_min) / (V_max - V_min) * F_max
+
+# Define filename
+filename = f"loadcell_{time.strftime('%Y%m%dT%H%M%S')}.csv"
+
+# Log loop
+with open(filename, "w", newline="") as f:
+    writer = csv.writer(f)
+    writer.writerow(["time (s)", "voltage (V)", "force (N)"])
+
+    print(f"Logging to {filename}. Ctrl+C to stop.\n")
+    t_start = time.time()
+
+    try:
+        while True:
+            # Read AIN0 input voltage
+            voltage = d.getAIN(0)
+            # Calculate force
+            force = volt_to_newton(voltage)
+            # Calculate time
+            t = time.time() - t_start
+
+            # Write values
+            writer.writerow([f"{t:.4f}", f"{voltage:.4f}", f"{force:.4f}"])
+            print(f"t={t:.4f} V={force:.4f} F={force:.4f}")
+
+            # Sleep
+            time.sleep(0.1) # 100 ms sample rate
+
+    except KeyboardInterrupt:
+        print("\nStopping...")
+        print(f"\nSaved to {filename}")
+    finally:
+        d.close()
+
