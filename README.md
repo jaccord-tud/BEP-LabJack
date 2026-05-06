@@ -1,6 +1,7 @@
-# BEP LabJack Loadcell
+# BEP LabJack
 
-Read, plot, and save loadcell measurements using LabJack.
+- Read, plot, and save loadcell measurements
+- Control linear actuator
 
 ## Requirements
 
