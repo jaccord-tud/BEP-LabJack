@@ -28,7 +28,7 @@ def parse_args():
 def main():
     args = parse_args()
 
-    file_stem = f"loadcell_{time.strftime('%Y%m%dT%H%M%S')}"
+    file_stem = f"data/loadcell_{time.strftime('%Y%m%dT%H%M%S')}"
     csv_file = f"{file_stem}.csv"
 
     max_points = int(WINDOW * RATE)
@@ -101,4 +101,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
