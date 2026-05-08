@@ -15,15 +15,15 @@ setup:
 clean:
     rm -rf .venv
 
-# run `loadcell.py` (with ARGS)
+# `read.py`: live loadcell readout
+read ARGS="":
+    .venv/bin/python src/read.py {{ARGS}}
+
+# `loadcell.py`: advanced loadcell logging and graphing
 loadcell ARGS="":
     .venv/bin/python src/loadcell.py {{ARGS}}
 
-# read loadcell to stdout
-read:
-    .venv/bin/python src/read.py
-
-# run `actuator.py` (with ARGS)
+# `actuator.py`: control actuator
 actuator ARGS="":
     .venv/bin/python src/actuator.py {{ARGS}}
 
