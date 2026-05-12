@@ -12,6 +12,8 @@ V_MIN = 0.0     # Volts
 V_MAX = 10.0
 F_MAX = 10.0    # Newton
 PRECISION = 4
+Y_MIN = -2.5
+Y_MAX = 2.5
 
 def voltage_to_force(voltage):
     return (voltage - V_MIN) / (V_MAX - V_MIN) * F_MAX
@@ -37,12 +39,19 @@ def parse_args():
 
 def setup_plot():
     import matplotlib.pyplot as plt
+    from matplotlib.ticker import MultipleLocator
     fig, ax = plt.subplots()
     line, = ax.plot([], [])
     ax.set_xlabel("Time (s)")
     ax.set_ylabel("Force (N)")
     ax.set_title("Load Cell")
-    ax.set_ylim(-0.5, F_MAX + 0.5)
+    ax.set_ylim(Y_MIN, Y_MAX)
+    ax.xaxis.set_major_locator(MultipleLocator(1))
+    ax.xaxis.set_minor_locator(MultipleLocator(0.1))
+    ax.yaxis.set_major_locator(MultipleLocator(1))
+    ax.yaxis.set_minor_locator(MultipleLocator(0.1))
+    ax.grid(True, which='major', alpha=0.3)
+    ax.grid(True, which='minor', alpha=0.1)
     return plt, ax, line
 
 def update_plot(plt, ax, line, times, forces, t, force):
