@@ -15,6 +15,10 @@ setup:
 clean:
     rm -rf .venv
 
+# python interpreter
+python:
+    .venv/bin/python
+
 # `read.py`: live loadcell readout
 read ARGS="":
     .venv/bin/python src/read.py {{ARGS}}
